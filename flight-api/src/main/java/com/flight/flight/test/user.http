@@ -1,0 +1,24 @@
+GET http://localhost:8888/info/elder
+Accept: application/json
+
+###
+POST http://localhost:8888/user/register
+Content-Type: application/json
+
+{
+  "name": "马顺通",
+  "account":"17777777777",
+  "password":"123456",
+  "check_password":"123456"
+}
+
+###
+POST http://localhost:8888/user/login
+Content-Type: application/json
+
+{
+    "account":"17777777777",
+    "password":123456
+}
+
+###
