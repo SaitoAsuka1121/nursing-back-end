@@ -1,3 +1,46 @@
+GET http://localhost:8888/help/release?id=123
+Accept: application/json
+
+###
+GET http://localhost:8888/help/history?id=3
+Accept: application/json
+
+###
+POST http://localhost:8888/help/message
+Content-Type: application/json
+
+{
+  "oid":"1537610675227037698",
+  "message":"小刘good"
+}
+
+###
+POST http://localhost:8888/help/agree
+Content-Type: application/json
+
+{
+  "oid":"1537610675227037698",
+  "uid":"-1"
+}
+
+###
+POST http://localhost:8888/help/add
+Content-Type: application/json
+
+{
+  "name": "马",
+  "title":"帮助",
+  "phone": "123",
+  "begin": "2001-1-1",
+  "end": "2001-1-1",
+  "content": "我需要帮助"
+}
+
+###
+GET http://localhost:8888/help/list
+Accept: application/json
+
+###
 GET http://localhost:8888/info/elder
 Accept: application/json
 

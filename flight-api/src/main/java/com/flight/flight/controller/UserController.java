@@ -37,6 +37,7 @@ public class UserController {
     public Result register(@RequestBody RegisterDTO registerDTO){
         RegisterIBO registerParam = new RegisterIBO();
         BeanUtils.copyProperties(registerDTO,registerParam);
+
         return userService.register(registerParam);
     }
     @GetMapping("faker")
@@ -46,5 +47,9 @@ public class UserController {
         System.out.println(faker);
         BeanUtils.copyProperties(faker,registerParam);
         return userService.register(registerParam);
+    }
+    @GetMapping("del")
+    public Result del(@RequestParam  String id){
+        return userService.del(id);
     }
 }

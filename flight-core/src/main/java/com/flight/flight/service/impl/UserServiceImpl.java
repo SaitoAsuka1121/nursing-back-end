@@ -9,6 +9,7 @@ import com.flight.flight.bo.Result;
 import com.flight.flight.entity.User;
 import com.flight.flight.ibo.LoginIBO;
 import com.flight.flight.ibo.RegisterIBO;
+import com.flight.flight.ibo.ReturnParm;
 import com.flight.flight.ibo.UpdateuserIBO;
 import com.flight.flight.mapper.UserMapper;
 import com.flight.flight.service.UserService;
@@ -60,9 +61,14 @@ public class UserServiceImpl implements UserService {
         if(sysUser == null){
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
+        log.info(sysUser.toString());
         String token = JwtUtils.createToken(sysUser.getId());
         redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(sysUser),1, TimeUnit.DAYS);
-        return Result.success(token);
+        ReturnParm returnParm = new ReturnParm();
+        returnParm.setToken(token);
+        returnParm.setUid(sysUser.getId());
+        returnParm.setName(sysUser.getName());
+        return Result.success(returnParm);
     }
 
     @Override
@@ -89,14 +95,6 @@ public class UserServiceImpl implements UserService {
         user.setName(nickname);
         user.setSalt(slat);
         Faker faker = new Faker(Locale.CHINA);
-        if(faker.random().nextInt(1,100)%2==0){
-            user.setSex("女");
-        }else{
-            user.setSex("男");
-        }
-        user.setAge(faker.random().nextInt(70,100));
-        user.setAddress(faker.address().fullAddress());
-        user.setEmail(null);
         //插入数据库
         userMapper.insert(user);
         //生成Token
@@ -141,7 +139,7 @@ public class UserServiceImpl implements UserService {
     public User findUserSlat(String account){
         LambdaQueryWrapper<User> slat= new LambdaQueryWrapper();
         slat.eq(User::getAccount,account);
-        slat.select(User::getSalt);
+        slat.select(User::getSalt,User::getId);
         slat.last("limit 1");
         return userMapper.selectOne(slat);
     }
@@ -162,7 +160,7 @@ public class UserServiceImpl implements UserService {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getAccount,account);
         queryWrapper.eq(User::getPassword,password);
-        queryWrapper.select(User::getAccount,User::getName);
+        queryWrapper.select(User::getAccount,User::getName,User::getId);
         queryWrapper.last("limit 1");
         return userMapper.selectOne(queryWrapper);
     }
@@ -181,5 +179,16 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return JSON.parseObject(userJson, User.class);
+    }
+
+    @Override
+    public Result del(String id) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getId,id);
+        int i = userMapper.delete(queryWrapper);
+        if(i==1){
+            return Result.success("删除成功");
+        }
+        return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
     }
 }

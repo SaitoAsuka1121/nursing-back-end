@@ -63,4 +63,11 @@ public interface UserService {
     Result updateUser(UpdateuserIBO updateuserParam, String id);
 
     User checkToken(String token);
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    Result del(String id);
 }
