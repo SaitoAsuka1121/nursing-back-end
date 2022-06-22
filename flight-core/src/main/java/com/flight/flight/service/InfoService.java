@@ -1,12 +1,14 @@
 package com.flight.flight.service;
 
 import com.flight.flight.bo.Result;
+import com.flight.flight.ibo.DrugAddIBO;
+import com.flight.flight.ibo.UserAddIBO;
 
 
 public interface InfoService {
 
-    /**
-     * 获取老人信息
-     */
-    Result elder();
+    Result list();
+    Result add(UserAddIBO userAddIBO);
+    Result del(String id);
+    Result search(String name);
 }
