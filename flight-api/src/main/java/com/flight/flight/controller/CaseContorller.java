@@ -33,4 +33,8 @@ public class CaseContorller {
     public Result del(@RequestParam String id){
         return caseService.del(id);
     }
+    @GetMapping("like")
+    public Result like(@RequestParam String name){
+        return caseService.search(name);
+    }
 }

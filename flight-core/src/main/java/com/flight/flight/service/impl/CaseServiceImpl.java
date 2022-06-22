@@ -47,4 +47,11 @@ public class CaseServiceImpl implements CaseService {
         }
         return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
     }
+
+    @Override
+    public Result search(String name) {
+        LambdaQueryWrapper<Case> wapper = new LambdaQueryWrapper<>();
+        wapper.like(Case::getName,name);
+        return Result.success(caseMapper.selectList(wapper));
+    }
 }

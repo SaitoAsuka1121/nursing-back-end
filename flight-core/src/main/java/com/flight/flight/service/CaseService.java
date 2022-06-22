@@ -8,4 +8,5 @@ public interface CaseService {
     Result list();
     Result add(CaseAddIBO caseAddIBO);
     Result del(String id);
+    Result search(String name);
 }
