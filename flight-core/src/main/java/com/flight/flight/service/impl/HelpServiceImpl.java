@@ -23,16 +23,19 @@ public class HelpServiceImpl implements HelpService{
     private HelpMapper helpMapper;
     public Result all(){
         LambdaQueryWrapper<Help> wrapper = new LambdaQueryWrapper<>();
+        return getResult(wrapper);
+    }
+
+    private Result getResult(LambdaQueryWrapper<Help> wrapper) {
         wrapper.select(Help::getId,Help::getTitle,Help::getBegin,Help::getEnd,Help::getContent,Help::getType,Help::getMessage,Help::getName);
         List<Help> helps = helpMapper.selectList(wrapper);
         return Result.success(helps);
     }
+
     public Result list(){
         LambdaQueryWrapper<Help> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Help::getUserId,"-1");
-        wrapper.select(Help::getId,Help::getTitle,Help::getBegin,Help::getEnd,Help::getContent,Help::getType,Help::getMessage,Help::getName);
-        List<Help> helps = helpMapper.selectList(wrapper);
-        return Result.success(helps);
+        return getResult(wrapper);
     }
 
     @Override
