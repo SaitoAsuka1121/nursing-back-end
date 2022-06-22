@@ -5,6 +5,7 @@ import com.flight.flight.bo.ErrorCode;
 import com.flight.flight.bo.Result;
 import com.flight.flight.entity.Case;
 import com.flight.flight.entity.Help;
+import com.flight.flight.entity.User;
 import com.flight.flight.ibo.CaseAddIBO;
 import com.flight.flight.mapper.CaseMapper;
 import com.flight.flight.service.CaseService;
@@ -22,7 +23,7 @@ public class CaseServiceImpl implements CaseService {
     @Override
     public Result list() {
         LambdaQueryWrapper<Case> wapper = new LambdaQueryWrapper<>();
-        wapper.select(Case::getId,Case::getName,Case::getSex,Case::getPhone,Case::getRe_phone);
+        wapper.select(Case::getId,Case::getName,Case::getSex,Case::getPhone,Case::getRe_phone,Case::getCases);
         return Result.success( caseMapper.selectList(wapper));
     }
 
@@ -35,5 +36,15 @@ public class CaseServiceImpl implements CaseService {
             return Result.success("插入成功");
         }
         return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+    }
+    @Override
+    public Result del(String id){
+        LambdaQueryWrapper<Case> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Case::getId,id);
+        int i = caseMapper.delete(queryWrapper);
+        if(i==1){
+            return Result.success("删除成功");
+        }
+        return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
     }
 }

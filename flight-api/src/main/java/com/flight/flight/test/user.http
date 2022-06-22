@@ -1,3 +1,7 @@
+GET http://localhost:8888/case/del?id=1539424095609888770
+Accept: application/json
+
+###
 POST http://localhost:8888/case/add
 Content-Type: application/json
 

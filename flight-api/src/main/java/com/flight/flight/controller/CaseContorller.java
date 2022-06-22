@@ -29,4 +29,8 @@ public class CaseContorller {
         log.info(caseAddIBO.toString());
         return caseService.add(caseAddIBO);
     }
+    @GetMapping("del")
+    public Result del(@RequestParam String id){
+        return caseService.del(id);
+    }
 }
