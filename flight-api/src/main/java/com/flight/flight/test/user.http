@@ -1,3 +1,15 @@
+POST http://localhost:8888/case/add
+Content-Type: application/json
+
+{
+  "name": "马",
+  "sex": "女",
+  "re_phone": "110",
+  "phone": "120",
+  "cases": "['wwww','wwww','sssss']"
+}
+
+###
 GET http://localhost:8888/case/all
 Accept: application/json
 

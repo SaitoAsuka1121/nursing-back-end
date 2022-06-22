@@ -1,11 +1,13 @@
 package com.flight.flight.controller;
 
 import com.flight.flight.bo.Result;
+import com.flight.flight.dto.CaseAddDTO;
+import com.flight.flight.ibo.CaseAddIBO;
+import com.flight.flight.ibo.HelpAddIBO;
 import com.flight.flight.service.CaseService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -18,5 +20,13 @@ public class CaseContorller {
     @GetMapping("all")
     public Result all(){
         return caseService.list();
+    }
+    @PostMapping("add")
+    public Result add(@RequestBody CaseAddDTO caseAddDTO){
+        log.info(caseAddDTO.toString());
+        CaseAddIBO caseAddIBO = new CaseAddIBO();
+        BeanUtils.copyProperties(caseAddDTO,caseAddIBO);
+        log.info(caseAddIBO.toString());
+        return caseService.add(caseAddIBO);
     }
 }
