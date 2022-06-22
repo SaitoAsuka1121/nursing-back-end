@@ -1,3 +1,25 @@
+GET http://localhost:8888/drug/like?name=马
+Accept: application/json
+
+###
+GET http://localhost:8888/drug/del?id=1539433467727687681
+Accept: application/json
+
+###
+POST http://localhost:8888/drug/add
+Content-Type: application/json
+
+{
+  "name": "马",
+  "begin": "2022-01-03",
+  "end": "2023-01-05",
+  "price": 120
+}
+
+###
+GET http://localhost:8888/drug/all
+Accept: application/json
+
 GET http://localhost:8888/case/like?name=马
 Accept: application/json
 
